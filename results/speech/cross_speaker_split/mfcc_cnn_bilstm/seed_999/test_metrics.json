@@ -1,0 +1,128 @@
+{
+  "architecture": "mfcc_cnn_bilstm",
+  "split_type": "cross_speaker_split",
+  "seed": 999,
+  "checkpoint_path": "/content/drive/MyDrive/Ass_2_Results/results/speech/cross_speaker_split/mfcc_cnn_bilstm/seed_999/best_model.pt",
+  "best_epoch": 18,
+  "best_val_macro_f1": 1.0,
+  "num_test_samples": 1400,
+  "embedding_shape": [
+    1400,
+    256
+  ],
+  "hardware_used": "cuda",
+  "eval_time_sec": 2.1803,
+  "accuracy": 0.37,
+  "macro_precision": 0.478841,
+  "macro_recall": 0.37,
+  "macro_f1": 0.361839,
+  "per_class_f1": {
+    "angry": 0.452632,
+    "disgust": 0.77037,
+    "fear": 0.404669,
+    "happy": 0.008032,
+    "neutral": 0.684211,
+    "pleasant_surprise": 0.072289,
+    "sad": 0.140673
+  },
+  "confusion_matrix": [
+    [
+      172,
+      7,
+      1,
+      0,
+      0,
+      0,
+      20
+    ],
+    [
+      2,
+      156,
+      0,
+      11,
+      0,
+      28,
+      3
+    ],
+    [
+      26,
+      22,
+      52,
+      99,
+      0,
+      1,
+      0
+    ],
+    [
+      180,
+      4,
+      3,
+      2,
+      0,
+      11,
+      0
+    ],
+    [
+      0,
+      15,
+      0,
+      0,
+      104,
+      0,
+      81
+    ],
+    [
+      4,
+      1,
+      0,
+      186,
+      0,
+      9,
+      0
+    ],
+    [
+      176,
+      0,
+      1,
+      0,
+      0,
+      0,
+      23
+    ]
+  ],
+  "emotion_labels": [
+    "angry",
+    "disgust",
+    "fear",
+    "happy",
+    "neutral",
+    "pleasant_surprise",
+    "sad"
+  ],
+  "model_config": {
+    "architecture": "mfcc_cnn_bilstm",
+    "dropout": 0.3,
+    "num_classes": 7
+  },
+  "train_config": {
+    "architecture": "mfcc_cnn_bilstm",
+    "split_type": "cross_speaker_split",
+    "seed": 999,
+    "batch_size": 32,
+    "max_epochs": 50,
+    "patience": 12,
+    "lr": 0.001,
+    "min_lr": 1e-05,
+    "weight_decay": 0.01,
+    "label_smoothing": 0.1,
+    "dropout": 0.3,
+    "grad_clip_norm": 1.0,
+    "apply_mfcc_cmvn": false,
+    "device": null,
+    "manifest_path": "/content/Ass_2/data/tess_manifest.csv",
+    "wavlm_cache_dir": "/content/Ass_2/data/features/wavlm",
+    "mfcc_cache_dir": "/content/Ass_2/data/features/mfcc",
+    "output_root": "/content/drive/MyDrive/Ass_2_Results/results/speech",
+    "overwrite": false
+  }
+}

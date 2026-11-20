@@ -1,0 +1,20 @@
+{
+  "architecture": "wavlm_bigru_attn",
+  "split_type": "word_indep_split",
+  "seed": 123,
+  "batch_size": 32,
+  "max_epochs": 50,
+  "patience": 10,
+  "lr": 0.001,
+  "min_lr": 1e-05,
+  "weight_decay": 0.01,
+  "label_smoothing": 0.1,
+  "dropout": 0.3,
+  "grad_clip_norm": 1.0,
+  "apply_mfcc_cmvn": false,
+  "device": null,
+  "manifest_path": "/Users/swaruppal/Downloads/Ass_2/data/tess_manifest.csv",
+  "wavlm_cache_dir": "/Users/swaruppal/Downloads/Ass_2/data/features/wavlm",
+  "mfcc_cache_dir": "/Users/swaruppal/Downloads/Ass_2/data/features/mfcc",
+  "output_root": "/Users/swaruppal/Downloads/Ass_2/results/speech"
+}

@@ -1,0 +1,128 @@
+{
+  "architecture": "mfcc_cnn_bilstm",
+  "split_type": "word_indep_split",
+  "seed": 999,
+  "checkpoint_path": "/content/drive/MyDrive/Ass_2_Results/results/speech/word_indep_split/mfcc_cnn_bilstm/seed_999/best_model.pt",
+  "best_epoch": 23,
+  "best_val_macro_f1": 1.0,
+  "num_test_samples": 420,
+  "embedding_shape": [
+    420,
+    256
+  ],
+  "hardware_used": "cuda",
+  "eval_time_sec": 1.0017,
+  "accuracy": 0.997619,
+  "macro_precision": 0.997658,
+  "macro_recall": 0.997619,
+  "macro_f1": 0.997619,
+  "per_class_f1": {
+    "angry": 1.0,
+    "disgust": 0.991736,
+    "fear": 1.0,
+    "happy": 1.0,
+    "neutral": 1.0,
+    "pleasant_surprise": 0.991597,
+    "sad": 1.0
+  },
+  "confusion_matrix": [
+    [
+      60,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      60,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      60,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      60,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      60,
+      0,
+      0
+    ],
+    [
+      0,
+      1,
+      0,
+      0,
+      0,
+      59,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      60
+    ]
+  ],
+  "emotion_labels": [
+    "angry",
+    "disgust",
+    "fear",
+    "happy",
+    "neutral",
+    "pleasant_surprise",
+    "sad"
+  ],
+  "model_config": {
+    "architecture": "mfcc_cnn_bilstm",
+    "dropout": 0.3,
+    "num_classes": 7
+  },
+  "train_config": {
+    "architecture": "mfcc_cnn_bilstm",
+    "split_type": "word_indep_split",
+    "seed": 999,
+    "batch_size": 32,
+    "max_epochs": 50,
+    "patience": 12,
+    "lr": 0.001,
+    "min_lr": 1e-05,
+    "weight_decay": 0.01,
+    "label_smoothing": 0.1,
+    "dropout": 0.3,
+    "grad_clip_norm": 1.0,
+    "apply_mfcc_cmvn": false,
+    "device": null,
+    "manifest_path": "/content/Ass_2/data/tess_manifest.csv",
+    "wavlm_cache_dir": "/content/Ass_2/data/features/wavlm",
+    "mfcc_cache_dir": "/content/Ass_2/data/features/mfcc",
+    "output_root": "/content/drive/MyDrive/Ass_2_Results/results/speech",
+    "overwrite": false
+  }
+}

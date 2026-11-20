@@ -1,0 +1,8 @@
+label_id,emotion,precision,recall,f1,support
+0,angry,1.0,1.0,1.0,60
+1,disgust,0.983607,1.0,0.991736,60
+2,fear,1.0,1.0,1.0,60
+3,happy,1.0,1.0,1.0,60
+4,neutral,1.0,1.0,1.0,60
+5,pleasant_surprise,1.0,0.983333,0.991597,60
+6,sad,1.0,1.0,1.0,60

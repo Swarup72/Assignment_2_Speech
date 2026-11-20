@@ -1,0 +1,10 @@
+split,architecture,seed,accuracy,macro_precision,macro_recall,macro_f1,num_test_samples
+word_indep_split,mfcc_cnn_bilstm,42,0.997619,0.997658,0.997619,0.997619,420
+word_indep_split,mfcc_cnn_bilstm,123,0.995238,0.995238,0.995238,0.995238,420
+word_indep_split,mfcc_cnn_bilstm,999,0.997619,0.997658,0.997619,0.997619,420
+cross_speaker_split,wavlm_bigru_attn,42,0.31,0.301265,0.31,0.2343,1400
+cross_speaker_split,wavlm_bigru_attn,123,0.509286,0.448119,0.509286,0.451855,1400
+cross_speaker_split,wavlm_bigru_attn,999,0.384286,0.285896,0.384286,0.321444,1400
+cross_speaker_split,mfcc_cnn_bilstm,42,0.417857,0.519769,0.417857,0.411722,1400
+cross_speaker_split,mfcc_cnn_bilstm,123,0.522143,0.604661,0.522143,0.504942,1400
+cross_speaker_split,mfcc_cnn_bilstm,999,0.37,0.478841,0.37,0.361839,1400
