@@ -1,0 +1,85 @@
+{
+  "architecture": "late_fusion",
+  "split_type": "word_indep_split",
+  "seeds": [
+    42,
+    123,
+    999
+  ],
+  "num_seeds": 3,
+  "runs": [
+    {
+      "seed": 42,
+      "selected_lambda": 1.0,
+      "val_macro_f1": 1.0,
+      "val_log_loss": 0.088125,
+      "test_accuracy": 0.997619,
+      "test_macro_precision": 0.997658,
+      "test_macro_recall": 0.997619,
+      "test_macro_f1": 0.997619,
+      "test_weighted_f1": 0.997619,
+      "test_log_loss": 0.092664,
+      "per_class_f1": {
+        "angry": 1.0,
+        "disgust": 0.991736,
+        "fear": 1.0,
+        "happy": 1.0,
+        "neutral": 1.0,
+        "pleasant_surprise": 0.991597,
+        "sad": 1.0
+      }
+    },
+    {
+      "seed": 123,
+      "selected_lambda": 1.0,
+      "val_macro_f1": 1.0,
+      "val_log_loss": 0.08742,
+      "test_accuracy": 0.997619,
+      "test_macro_precision": 0.997658,
+      "test_macro_recall": 0.997619,
+      "test_macro_f1": 0.997619,
+      "test_weighted_f1": 0.997619,
+      "test_log_loss": 0.095605,
+      "per_class_f1": {
+        "angry": 1.0,
+        "disgust": 0.991736,
+        "fear": 1.0,
+        "happy": 1.0,
+        "neutral": 1.0,
+        "pleasant_surprise": 0.991597,
+        "sad": 1.0
+      }
+    },
+    {
+      "seed": 999,
+      "selected_lambda": 1.0,
+      "val_macro_f1": 1.0,
+      "val_log_loss": 0.08787,
+      "test_accuracy": 0.997619,
+      "test_macro_precision": 0.997658,
+      "test_macro_recall": 0.997619,
+      "test_macro_f1": 0.997619,
+      "test_weighted_f1": 0.997619,
+      "test_log_loss": 0.092344,
+      "per_class_f1": {
+        "angry": 1.0,
+        "disgust": 0.991736,
+        "fear": 1.0,
+        "happy": 1.0,
+        "neutral": 1.0,
+        "pleasant_surprise": 0.991597,
+        "sad": 1.0
+      }
+    }
+  ],
+  "aggregate": {
+    "accuracy_mean": 0.997619,
+    "accuracy_std": 0.0,
+    "accuracy_formatted": "99.76 \u00b1 0.00%",
+    "macro_f1_mean": 0.997619,
+    "macro_f1_std": 0.0,
+    "macro_f1_formatted": "99.76 \u00b1 0.00%",
+    "log_loss_mean": 0.093538,
+    "log_loss_std": 0.001797
+  }
+}

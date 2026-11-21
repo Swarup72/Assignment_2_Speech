@@ -1,0 +1,2 @@
+architecture,split_type,seed,test_accuracy,test_macro_precision,test_macro_recall,test_macro_f1,test_weighted_f1,test_log_loss,num_test_samples,selected_lambda,f1_angry,f1_disgust,f1_fear,f1_happy,f1_neutral,f1_pleasant_surprise,f1_sad
+late_fusion,word_indep_split,999,0.997619,0.997658,0.997619,0.997619,0.997619,0.092344,420,1.0,1.0,0.991736,1.0,1.0,1.0,0.991597,1.0

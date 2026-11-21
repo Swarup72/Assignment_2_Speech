@@ -1,0 +1,15 @@
+{
+  "mean_gate": 0.695231,
+  "std_gate": 0.261401,
+  "min_gate": 0.01228,
+  "max_gate": 0.994084,
+  "per_emotion_mean_gate": {
+    "angry": 0.697169,
+    "disgust": 0.662837,
+    "fear": 0.712296,
+    "happy": 0.70621,
+    "neutral": 0.712394,
+    "pleasant_surprise": 0.681951,
+    "sad": 0.693761
+  }
+}

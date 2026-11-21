@@ -1,0 +1,36 @@
+[
+  {
+    "architecture": "late_fusion",
+    "split_type": "word_indep_split",
+    "num_seeds": 1,
+    "seeds": [
+      999
+    ],
+    "accuracy_mean": 0.997619,
+    "accuracy_std": 0.0,
+    "macro_precision_mean": 0.997658,
+    "macro_precision_std": 0.0,
+    "macro_recall_mean": 0.997619,
+    "macro_recall_std": 0.0,
+    "macro_f1_mean": 0.997619,
+    "macro_f1_std": 0.0,
+    "weighted_f1_mean": 0.997619,
+    "weighted_f1_std": 0.0,
+    "accuracy_formatted": "99.76 \u00b1 0.00%",
+    "macro_f1_formatted": "99.76 \u00b1 0.00%",
+    "f1_angry_mean": 1.0,
+    "f1_angry_std": 0.0,
+    "f1_disgust_mean": 0.991736,
+    "f1_disgust_std": 0.0,
+    "f1_fear_mean": 1.0,
+    "f1_fear_std": 0.0,
+    "f1_happy_mean": 1.0,
+    "f1_happy_std": 0.0,
+    "f1_neutral_mean": 1.0,
+    "f1_neutral_std": 0.0,
+    "f1_pleasant_surprise_mean": 0.991597,
+    "f1_pleasant_surprise_std": 0.0,
+    "f1_sad_mean": 1.0,
+    "f1_sad_std": 0.0
+  }
+]

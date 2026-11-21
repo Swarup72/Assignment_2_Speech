@@ -1,0 +1,7 @@
+split_type,architecture,seed,num_test_samples,accuracy,macro_precision,macro_recall,macro_f1,weighted_f1,log_loss,trainable_params
+word_indep_split,distilbert_bilstm_attn,42,420,0.142857,0.020408,0.142857,0.035714,0.035714,1.945956,1055239
+word_indep_split,distilbert_bilstm_attn,123,420,0.142857,0.020408,0.142857,0.035714,0.035714,1.945936,1055239
+word_indep_split,distilbert_bilstm_attn,999,420,0.142857,0.020408,0.142857,0.035714,0.035714,1.945941,1055239
+cross_speaker_split,distilbert_bilstm_attn,42,1400,0.142857,0.020408,0.142857,0.035714,0.035714,1.946026,1055239
+cross_speaker_split,distilbert_bilstm_attn,123,1400,0.142857,0.020408,0.142857,0.035714,0.035714,1.946005,1055239
+cross_speaker_split,distilbert_bilstm_attn,999,1400,0.142857,0.020408,0.142857,0.035714,0.035714,1.946091,1055239

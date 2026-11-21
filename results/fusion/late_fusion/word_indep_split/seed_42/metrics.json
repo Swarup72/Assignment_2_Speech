@@ -1,0 +1,125 @@
+{
+  "architecture": "late_fusion",
+  "split_type": "word_indep_split",
+  "seed": 42,
+  "num_test_samples": 420,
+  "hardware_used": "mps",
+  "eval_time_sec": 3.7741,
+  "accuracy": 0.997619,
+  "macro_precision": 0.997658,
+  "macro_recall": 0.997619,
+  "macro_f1": 0.997619,
+  "weighted_f1": 0.997619,
+  "log_loss": 0.092664,
+  "per_class_f1": {
+    "angry": 1.0,
+    "disgust": 0.991736,
+    "fear": 1.0,
+    "happy": 1.0,
+    "neutral": 1.0,
+    "pleasant_surprise": 0.991597,
+    "sad": 1.0
+  },
+  "confusion_matrix": [
+    [
+      60,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      60,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      60,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      60,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      60,
+      0,
+      0
+    ],
+    [
+      0,
+      1,
+      0,
+      0,
+      0,
+      59,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      60
+    ]
+  ],
+  "emotion_labels": [
+    "angry",
+    "disgust",
+    "fear",
+    "happy",
+    "neutral",
+    "pleasant_surprise",
+    "sad"
+  ],
+  "selected_lambda": 1.0,
+  "calibration_path": "/Users/swaruppal/Downloads/Ass_2/results/fusion/late_fusion/word_indep_split/seed_42/selected_lambda.json",
+  "speech_encoder_meta": {
+    "architecture": "wavlm_bigru_attn",
+    "split_type": "word_indep_split",
+    "seed": 42,
+    "best_epoch": 49,
+    "best_val_macro_f1": 1.0,
+    "model_config": {
+      "architecture": "wavlm_bigru_attn",
+      "dropout": 0.3,
+      "num_classes": 7
+    },
+    "checkpoint_path": "/Users/swaruppal/Downloads/Ass_2/results/speech/word_indep_split/wavlm_bigru_attn/seed_42/best_model.pt"
+  },
+  "text_encoder_meta": {
+    "architecture": "distilbert_bilstm_attn",
+    "split_type": "word_indep_split",
+    "seed": 42,
+    "best_epoch": 13,
+    "best_val_macro_f1": 0.03571428571428571,
+    "model_config": {
+      "architecture": "distilbert_bilstm_attn",
+      "dropout": 0.3,
+      "num_classes": 7
+    },
+    "checkpoint_path": "/Users/swaruppal/Downloads/Ass_2/results/text/distilbert_bilstm_attn/word_independent/seed_42/best_model.pt"
+  }
+}

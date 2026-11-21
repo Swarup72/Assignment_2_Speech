@@ -1,0 +1,6 @@
+sample_id,model,split_type,seed,true_emotion,pred_emotion,confidence,prob_angry,prob_disgust,prob_fear,prob_happy,prob_neutral,prob_pleasant_surprise,prob_sad
+OAF_hall_pleasant_surprise,"Gated Fusion (WI, s42)",word_indep_split,42,pleasant_surprise,disgust,0.832018,0.014816,0.832018,0.024423,0.015577,0.015519,0.077897,0.019751
+OAF_rush_disgust,"MFCC Speech (WI, s123)",word_indep_split,123,disgust,pleasant_surprise,0.470551,0.043616,0.374825,0.026816,0.03308,0.023903,0.470551,0.02721
+OAF_bite_angry,"DistilBERT Text (WI, s42)",word_indep_split,42,angry,pleasant_surprise,0.144957,0.142891,0.143861,0.140571,0.14182,0.142175,0.144957,0.143725
+YAF_back_happy,"WavLM Speech (CS, s42)",cross_speaker_split,42,happy,angry,0.91133,0.91133,0.014441,0.01126,0.019077,0.011977,0.013963,0.017954
+YAF_back_fear,"MFCC Speech (CS, s123)",cross_speaker_split,123,fear,angry,0.812064,0.812064,0.018213,0.01677,0.040078,0.021801,0.06988,0.021195

@@ -1,0 +1,21 @@
+{
+  "output_plot": "results/plots/tsne_three_panel_comparison.png",
+  "num_samples": 420,
+  "split_type": "word_indep_split",
+  "seed": 42,
+  "sample_ids_aligned": true,
+  "labels_aligned": true,
+  "tsne_parameters": {
+    "n_components": 2,
+    "perplexity": 30,
+    "init": "pca",
+    "learning_rate": "auto",
+    "random_state": 42,
+    "max_iter": 1000
+  },
+  "sources": {
+    "temporal": "results/speech/word_indep_split/wavlm_bigru_attn/seed_42/test_embeddings.pt",
+    "contextual": "results/text/distilbert_bilstm_attn/word_independent/seed_42/test_embeddings.pt",
+    "fusion": "results/fusion/gated_fusion/word_indep_split/seed_42/test_embeddings.npz"
+  }
+}

@@ -1,0 +1,22 @@
+[
+  {
+    "architecture": "late_fusion",
+    "split_type": "word_indep_split",
+    "seed": 999,
+    "test_accuracy": 0.997619,
+    "test_macro_precision": 0.997658,
+    "test_macro_recall": 0.997619,
+    "test_macro_f1": 0.997619,
+    "test_weighted_f1": 0.997619,
+    "test_log_loss": 0.092344,
+    "num_test_samples": 420,
+    "selected_lambda": 1.0,
+    "f1_angry": 1.0,
+    "f1_disgust": 0.991736,
+    "f1_fear": 1.0,
+    "f1_happy": 1.0,
+    "f1_neutral": 1.0,
+    "f1_pleasant_surprise": 0.991597,
+    "f1_sad": 1.0
+  }
+]
