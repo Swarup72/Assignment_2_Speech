@@ -1,0 +1,1150 @@
+{
+  "counting_definition": {
+    "intervals_counted": "Non-empty phone intervals only (empty/silence intervals excluded from duration metrics and threshold counts; silence interval counts reported separately).",
+    "tolerance_ms": 0.01,
+    "rationale": "Reconciled counts using the MFA 10 ms frame-grid tolerance (+/-0.01 ms = +/-10 us) to accommodate float32 TextGrid timestamp serialization jitter (e.g., 29.998-30.001 ms). The 75 nominally 30 ms intervals include 12 intervals serialized as 30.001 ms; the 2 shorter-than-nominal-30-ms intervals are the two 10 ms AH0 intervals in F2BJRLP1.",
+    "classifications": {
+      "phones_shorter_than_nominal_30ms": "Shorter than nominal 30 ms (duration < 29.99 ms)",
+      "phones_nominally_30ms": "Nominally 30 ms (duration within 29.99-30.01 ms, inclusive)",
+      "phones_nominally_30ms_or_shorter": "Nominally 30 ms or shorter (duration <= 30.01 ms)",
+      "phones_at_least_nominally_300ms": "At least nominally 300 ms (duration >= 299.99 ms)"
+    }
+  },
+  "per_recording": [
+    {
+      "recording": "F2BJRLP1",
+      "speaker_group": "F2B",
+      "audio_duration_s": 25.3091,
+      "textgrid_duration_s": 25.3091,
+      "duration_diff_s": 0.0,
+      "word_intervals_total": 84,
+      "word_intervals_non_empty": 70,
+      "word_silence_intervals": 14,
+      "phone_intervals_total": 322,
+      "phone_intervals_non_empty": 308,
+      "phone_silence_intervals": 14,
+      "mean_word_duration_ms": 318.0,
+      "median_word_duration_ms": 305.0,
+      "min_word_duration_ms": 40.0,
+      "max_word_duration_ms": 890.0,
+      "mean_phone_duration_ms": 72.27,
+      "median_phone_duration_ms": 60.0,
+      "min_phone_duration_ms": 10.0,
+      "min_phone_label": "AH0 [20.730-20.740s]",
+      "max_phone_duration_ms": 230.0,
+      "max_phone_label": "IY0 [9.760-9.990s]",
+      "phones_shorter_than_nominal_30ms": 2,
+      "phones_nominally_30ms": 27,
+      "phones_nominally_30ms_or_shorter": 29,
+      "phones_at_least_nominally_300ms": 0,
+      "speech_rate_words_per_min": 165.95,
+      "structural_anomalies_count": 0,
+      "structural_anomalies": "None"
+    },
+    {
+      "recording": "F2BJRLP2",
+      "speaker_group": "F2B",
+      "audio_duration_s": 28.6474,
+      "textgrid_duration_s": 28.6474,
+      "duration_diff_s": 0.0,
+      "word_intervals_total": 84,
+      "word_intervals_non_empty": 74,
+      "word_silence_intervals": 10,
+      "phone_intervals_total": 355,
+      "phone_intervals_non_empty": 345,
+      "phone_silence_intervals": 10,
+      "mean_word_duration_ms": 348.51,
+      "median_word_duration_ms": 360.0,
+      "min_word_duration_ms": 60.0,
+      "max_word_duration_ms": 860.0,
+      "mean_phone_duration_ms": 74.75,
+      "median_phone_duration_ms": 70.0,
+      "min_phone_duration_ms": 30.0,
+      "min_phone_label": "UW1 [25.610-25.640s]",
+      "max_phone_duration_ms": 240.0,
+      "max_phone_label": "AY2 [6.150-6.390s]",
+      "phones_shorter_than_nominal_30ms": 0,
+      "phones_nominally_30ms": 25,
+      "phones_nominally_30ms_or_shorter": 25,
+      "phones_at_least_nominally_300ms": 0,
+      "speech_rate_words_per_min": 154.99,
+      "structural_anomalies_count": 0,
+      "structural_anomalies": "None"
+    },
+    {
+      "recording": "F2BJRLP3",
+      "speaker_group": "F2B",
+      "audio_duration_s": 30.7068,
+      "textgrid_duration_s": 30.7068,
+      "duration_diff_s": 0.0,
+      "word_intervals_total": 95,
+      "word_intervals_non_empty": 82,
+      "word_silence_intervals": 13,
+      "phone_intervals_total": 385,
+      "phone_intervals_non_empty": 372,
+      "phone_silence_intervals": 13,
+      "mean_word_duration_ms": 335.73,
+      "median_word_duration_ms": 320.0,
+      "min_word_duration_ms": 50.0,
+      "max_word_duration_ms": 820.0,
+      "mean_phone_duration_ms": 74.01,
+      "median_phone_duration_ms": 70.0,
+      "min_phone_duration_ms": 30.0,
+      "min_phone_label": "IH1 [18.850-18.880s]",
+      "max_phone_duration_ms": 290.0,
+      "max_phone_label": "OW1 [13.470-13.760s]",
+      "phones_shorter_than_nominal_30ms": 0,
+      "phones_nominally_30ms": 23,
+      "phones_nominally_30ms_or_shorter": 23,
+      "phones_at_least_nominally_300ms": 0,
+      "speech_rate_words_per_min": 160.23,
+      "structural_anomalies_count": 0,
+      "structural_anomalies": "None"
+    },
+    {
+      "recording": "ISLE_SESS0131_BLOCKD02_01_sprt1",
+      "speaker_group": "ISLE_SESS0131",
+      "audio_duration_s": 4.125,
+      "textgrid_duration_s": 4.125,
+      "duration_diff_s": 0.0,
+      "word_intervals_total": 8,
+      "word_intervals_non_empty": 5,
+      "word_silence_intervals": 3,
+      "phone_intervals_total": 16,
+      "phone_intervals_non_empty": 13,
+      "phone_silence_intervals": 3,
+      "mean_word_duration_ms": 332.0,
+      "median_word_duration_ms": 390.0,
+      "min_word_duration_ms": 90.0,
+      "max_word_duration_ms": 450.0,
+      "mean_phone_duration_ms": 127.69,
+      "median_phone_duration_ms": 130.0,
+      "min_phone_duration_ms": 40.0,
+      "min_phone_label": "B [1.800-1.840s]",
+      "max_phone_duration_ms": 210.0,
+      "max_phone_label": "EY1 [1.840-2.050s]",
+      "phones_shorter_than_nominal_30ms": 0,
+      "phones_nominally_30ms": 0,
+      "phones_nominally_30ms_or_shorter": 0,
+      "phones_at_least_nominally_300ms": 0,
+      "speech_rate_words_per_min": 72.73,
+      "structural_anomalies_count": 0,
+      "structural_anomalies": "None"
+    },
+    {
+      "recording": "ISLE_SESS0131_BLOCKD02_02_sprt1",
+      "speaker_group": "ISLE_SESS0131",
+      "audio_duration_s": 3.875,
+      "textgrid_duration_s": 3.875,
+      "duration_diff_s": 0.0,
+      "word_intervals_total": 8,
+      "word_intervals_non_empty": 5,
+      "word_silence_intervals": 3,
+      "phone_intervals_total": 15,
+      "phone_intervals_non_empty": 12,
+      "phone_silence_intervals": 3,
+      "mean_word_duration_ms": 314.0,
+      "median_word_duration_ms": 320.0,
+      "min_word_duration_ms": 70.0,
+      "max_word_duration_ms": 470.0,
+      "mean_phone_duration_ms": 130.83,
+      "median_phone_duration_ms": 100.0,
+      "min_phone_duration_ms": 50.0,
+      "min_phone_label": "D [0.960-1.010s]",
+      "max_phone_duration_ms": 350.0,
+      "max_phone_label": "OW1 [1.870-2.220s]",
+      "phones_shorter_than_nominal_30ms": 0,
+      "phones_nominally_30ms": 0,
+      "phones_nominally_30ms_or_shorter": 0,
+      "phones_at_least_nominally_300ms": 1,
+      "speech_rate_words_per_min": 77.42,
+      "structural_anomalies_count": 0,
+      "structural_anomalies": "None"
+    },
+    {
+      "recording": "ISLE_SESS0131_BLOCKD02_03_sprt1",
+      "speaker_group": "ISLE_SESS0131",
+      "audio_duration_s": 4.5,
+      "textgrid_duration_s": 4.5,
+      "duration_diff_s": 0.0,
+      "word_intervals_total": 7,
+      "word_intervals_non_empty": 5,
+      "word_silence_intervals": 2,
+      "phone_intervals_total": 15,
+      "phone_intervals_non_empty": 13,
+      "phone_silence_intervals": 2,
+      "mean_word_duration_ms": 368.0,
+      "median_word_duration_ms": 400.0,
+      "min_word_duration_ms": 70.0,
+      "max_word_duration_ms": 510.0,
+      "mean_phone_duration_ms": 141.54,
+      "median_phone_duration_ms": 140.0,
+      "min_phone_duration_ms": 40.0,
+      "min_phone_label": "B [0.660-0.700s]",
+      "max_phone_duration_ms": 260.0,
+      "max_phone_label": "D [1.800-2.060s]",
+      "phones_shorter_than_nominal_30ms": 0,
+      "phones_nominally_30ms": 0,
+      "phones_nominally_30ms_or_shorter": 0,
+      "phones_at_least_nominally_300ms": 0,
+      "speech_rate_words_per_min": 66.67,
+      "structural_anomalies_count": 0,
+      "structural_anomalies": "None"
+    }
+  ],
+  "group_aggregates": {
+    "All_6": {
+      "group": "All_6",
+      "num_recordings": 6,
+      "total_audio_duration_s": 97.1633,
+      "word_intervals_total": 286,
+      "word_intervals_non_empty": 241,
+      "word_silence_intervals": 45,
+      "phone_intervals_total": 1108,
+      "phone_intervals_non_empty": 1063,
+      "phone_silence_intervals": 45,
+      "mean_word_duration_ms": 334.65,
+      "median_word_duration_ms": 320.0,
+      "mean_phone_duration_ms": 75.87,
+      "median_phone_duration_ms": 70.0,
+      "min_phone_duration_ms": 10.0,
+      "max_phone_duration_ms": 350.0,
+      "phones_shorter_than_nominal_30ms": 2,
+      "phones_nominally_30ms": 75,
+      "phones_nominally_30ms_or_shorter": 77,
+      "phones_at_least_nominally_300ms": 1,
+      "speech_rate_words_per_min": 148.82,
+      "structural_anomalies_count": 0
+    },
+    "F2B": {
+      "group": "F2B",
+      "num_recordings": 3,
+      "total_audio_duration_s": 84.6633,
+      "word_intervals_total": 263,
+      "word_intervals_non_empty": 226,
+      "word_silence_intervals": 37,
+      "phone_intervals_total": 1062,
+      "phone_intervals_non_empty": 1025,
+      "phone_silence_intervals": 37,
+      "mean_word_duration_ms": 334.42,
+      "median_word_duration_ms": 320.0,
+      "mean_phone_duration_ms": 73.74,
+      "median_phone_duration_ms": 70.0,
+      "min_phone_duration_ms": 10.0,
+      "max_phone_duration_ms": 290.0,
+      "phones_shorter_than_nominal_30ms": 2,
+      "phones_nominally_30ms": 75,
+      "phones_nominally_30ms_or_shorter": 77,
+      "phones_at_least_nominally_300ms": 0,
+      "speech_rate_words_per_min": 160.16,
+      "structural_anomalies_count": 0
+    },
+    "ISLE_SESS0131": {
+      "group": "ISLE_SESS0131",
+      "num_recordings": 3,
+      "total_audio_duration_s": 12.5,
+      "word_intervals_total": 23,
+      "word_intervals_non_empty": 15,
+      "word_silence_intervals": 8,
+      "phone_intervals_total": 46,
+      "phone_intervals_non_empty": 38,
+      "phone_silence_intervals": 8,
+      "mean_word_duration_ms": 338.0,
+      "median_word_duration_ms": 390.0,
+      "mean_phone_duration_ms": 133.42,
+      "median_phone_duration_ms": 115.0,
+      "min_phone_duration_ms": 40.0,
+      "max_phone_duration_ms": 350.0,
+      "phones_shorter_than_nominal_30ms": 0,
+      "phones_nominally_30ms": 0,
+      "phones_nominally_30ms_or_shorter": 0,
+      "phones_at_least_nominally_300ms": 1,
+      "speech_rate_words_per_min": 72.0,
+      "structural_anomalies_count": 0
+    }
+  },
+  "zoomed_region_intervals": {
+    "F2BJRLP1_wbur_zoom.png": {
+      "words": [
+        {
+          "word": "",
+          "start_s": 19.98,
+          "end_s": 20.36,
+          "dur_ms": 380.0
+        },
+        {
+          "word": "as",
+          "start_s": 20.36,
+          "end_s": 20.56,
+          "dur_ms": 200.0
+        },
+        {
+          "word": "wbur's",
+          "start_s": 20.56,
+          "end_s": 21.44,
+          "dur_ms": 880.0
+        },
+        {
+          "word": "margo",
+          "start_s": 21.44,
+          "end_s": 21.74,
+          "dur_ms": 300.0
+        },
+        {
+          "word": "melnicove",
+          "start_s": 21.74,
+          "end_s": 22.3,
+          "dur_ms": 560.0
+        }
+      ],
+      "phones": [
+        {
+          "phone": "",
+          "start_s": 19.98,
+          "end_s": 20.36,
+          "dur_ms": 380.0
+        },
+        {
+          "phone": "EH1",
+          "start_s": 20.36,
+          "end_s": 20.48,
+          "dur_ms": 120.0
+        },
+        {
+          "phone": "Z",
+          "start_s": 20.48,
+          "end_s": 20.56,
+          "dur_ms": 80.0
+        },
+        {
+          "phone": "D",
+          "start_s": 20.56,
+          "end_s": 20.63,
+          "dur_ms": 70.0
+        },
+        {
+          "phone": "AH1",
+          "start_s": 20.63,
+          "end_s": 20.68,
+          "dur_ms": 50.0
+        },
+        {
+          "phone": "B",
+          "start_s": 20.68,
+          "end_s": 20.73,
+          "dur_ms": 50.0
+        },
+        {
+          "phone": "AH0",
+          "start_s": 20.73,
+          "end_s": 20.74,
+          "dur_ms": 10.0
+        },
+        {
+          "phone": "L",
+          "start_s": 20.74,
+          "end_s": 20.77,
+          "dur_ms": 30.0
+        },
+        {
+          "phone": "Y",
+          "start_s": 20.77,
+          "end_s": 20.86,
+          "dur_ms": 90.0
+        },
+        {
+          "phone": "UW0",
+          "start_s": 20.86,
+          "end_s": 20.9,
+          "dur_ms": 40.0
+        },
+        {
+          "phone": "B",
+          "start_s": 20.9,
+          "end_s": 20.96,
+          "dur_ms": 60.0
+        },
+        {
+          "phone": "IY1",
+          "start_s": 20.96,
+          "end_s": 21.01,
+          "dur_ms": 50.0
+        },
+        {
+          "phone": "Y",
+          "start_s": 21.01,
+          "end_s": 21.1,
+          "dur_ms": 90.0
+        },
+        {
+          "phone": "UW1",
+          "start_s": 21.1,
+          "end_s": 21.19,
+          "dur_ms": 90.0
+        },
+        {
+          "phone": "AA1",
+          "start_s": 21.19,
+          "end_s": 21.26,
+          "dur_ms": 70.0
+        },
+        {
+          "phone": "R",
+          "start_s": 21.26,
+          "end_s": 21.36,
+          "dur_ms": 100.0
+        },
+        {
+          "phone": "Z",
+          "start_s": 21.36,
+          "end_s": 21.44,
+          "dur_ms": 80.0
+        },
+        {
+          "phone": "M",
+          "start_s": 21.44,
+          "end_s": 21.5,
+          "dur_ms": 60.0
+        },
+        {
+          "phone": "AA1",
+          "start_s": 21.5,
+          "end_s": 21.53,
+          "dur_ms": 30.0
+        },
+        {
+          "phone": "R",
+          "start_s": 21.53,
+          "end_s": 21.61,
+          "dur_ms": 80.0
+        },
+        {
+          "phone": "G",
+          "start_s": 21.61,
+          "end_s": 21.67,
+          "dur_ms": 60.0
+        },
+        {
+          "phone": "OW0",
+          "start_s": 21.67,
+          "end_s": 21.74,
+          "dur_ms": 70.0
+        },
+        {
+          "phone": "M",
+          "start_s": 21.74,
+          "end_s": 21.8,
+          "dur_ms": 60.0
+        }
+      ]
+    },
+    "F2BJRLP1_sjcs_zoom.png": {
+      "words": [
+        {
+          "word": "april",
+          "start_s": 4.29,
+          "end_s": 4.63,
+          "dur_ms": 340.0
+        },
+        {
+          "word": "the",
+          "start_s": 4.63,
+          "end_s": 4.79,
+          "dur_ms": 160.0
+        },
+        {
+          "word": "s",
+          "start_s": 4.79,
+          "end_s": 4.94,
+          "dur_ms": 150.0
+        },
+        {
+          "word": "j",
+          "start_s": 4.94,
+          "end_s": 5.12,
+          "dur_ms": 180.0
+        },
+        {
+          "word": "c's",
+          "start_s": 5.12,
+          "end_s": 5.43,
+          "dur_ms": 310.0
+        },
+        {
+          "word": "current",
+          "start_s": 5.43,
+          "end_s": 5.81,
+          "dur_ms": 380.0
+        }
+      ],
+      "phones": [
+        {
+          "phone": "R",
+          "start_s": 4.49,
+          "end_s": 4.53,
+          "dur_ms": 40.0
+        },
+        {
+          "phone": "AH0",
+          "start_s": 4.53,
+          "end_s": 4.58,
+          "dur_ms": 50.0
+        },
+        {
+          "phone": "L",
+          "start_s": 4.58,
+          "end_s": 4.63,
+          "dur_ms": 50.0
+        },
+        {
+          "phone": "DH",
+          "start_s": 4.63,
+          "end_s": 4.69,
+          "dur_ms": 60.0
+        },
+        {
+          "phone": "IY0",
+          "start_s": 4.69,
+          "end_s": 4.79,
+          "dur_ms": 100.0
+        },
+        {
+          "phone": "EH1",
+          "start_s": 4.79,
+          "end_s": 4.86,
+          "dur_ms": 70.0
+        },
+        {
+          "phone": "S",
+          "start_s": 4.86,
+          "end_s": 4.94,
+          "dur_ms": 80.0
+        },
+        {
+          "phone": "JH",
+          "start_s": 4.94,
+          "end_s": 5.03,
+          "dur_ms": 90.0
+        },
+        {
+          "phone": "EY1",
+          "start_s": 5.03,
+          "end_s": 5.12,
+          "dur_ms": 90.0
+        },
+        {
+          "phone": "S",
+          "start_s": 5.12,
+          "end_s": 5.25,
+          "dur_ms": 130.0
+        },
+        {
+          "phone": "IY1",
+          "start_s": 5.25,
+          "end_s": 5.35,
+          "dur_ms": 100.0
+        },
+        {
+          "phone": "Z",
+          "start_s": 5.35,
+          "end_s": 5.43,
+          "dur_ms": 80.0
+        },
+        {
+          "phone": "K",
+          "start_s": 5.43,
+          "end_s": 5.56,
+          "dur_ms": 130.0
+        },
+        {
+          "phone": "ER1",
+          "start_s": 5.56,
+          "end_s": 5.64,
+          "dur_ms": 80.0
+        },
+        {
+          "phone": "AH0",
+          "start_s": 5.64,
+          "end_s": 5.72,
+          "dur_ms": 80.0
+        },
+        {
+          "phone": "N",
+          "start_s": 5.72,
+          "end_s": 5.75,
+          "dur_ms": 30.0
+        }
+      ]
+    },
+    "F2BJRLP2_dukakis_zoom.png": {
+      "words": [
+        {
+          "word": "governor",
+          "start_s": 2.05,
+          "end_s": 2.41,
+          "dur_ms": 360.0
+        },
+        {
+          "word": "michael",
+          "start_s": 2.41,
+          "end_s": 2.72,
+          "dur_ms": 310.0
+        },
+        {
+          "word": "dukakis",
+          "start_s": 2.72,
+          "end_s": 3.36,
+          "dur_ms": 640.0
+        },
+        {
+          "word": "",
+          "start_s": 3.36,
+          "end_s": 3.63,
+          "dur_ms": 270.0
+        },
+        {
+          "word": "fulfilled",
+          "start_s": 3.63,
+          "end_s": 4.06,
+          "dur_ms": 430.0
+        }
+      ],
+      "phones": [
+        {
+          "phone": "ER0",
+          "start_s": 2.32,
+          "end_s": 2.41,
+          "dur_ms": 90.0
+        },
+        {
+          "phone": "M",
+          "start_s": 2.41,
+          "end_s": 2.48,
+          "dur_ms": 70.0
+        },
+        {
+          "phone": "AY1",
+          "start_s": 2.48,
+          "end_s": 2.57,
+          "dur_ms": 90.0
+        },
+        {
+          "phone": "K",
+          "start_s": 2.57,
+          "end_s": 2.64,
+          "dur_ms": 70.0
+        },
+        {
+          "phone": "AH0",
+          "start_s": 2.64,
+          "end_s": 2.69,
+          "dur_ms": 50.0
+        },
+        {
+          "phone": "L",
+          "start_s": 2.69,
+          "end_s": 2.72,
+          "dur_ms": 30.0
+        },
+        {
+          "phone": "D",
+          "start_s": 2.72,
+          "end_s": 2.78,
+          "dur_ms": 60.0
+        },
+        {
+          "phone": "AH0",
+          "start_s": 2.78,
+          "end_s": 2.84,
+          "dur_ms": 60.0
+        },
+        {
+          "phone": "K",
+          "start_s": 2.84,
+          "end_s": 2.95,
+          "dur_ms": 110.0
+        },
+        {
+          "phone": "AA1",
+          "start_s": 2.95,
+          "end_s": 3.07,
+          "dur_ms": 120.0
+        },
+        {
+          "phone": "K",
+          "start_s": 3.07,
+          "end_s": 3.15,
+          "dur_ms": 80.0
+        },
+        {
+          "phone": "IH0",
+          "start_s": 3.15,
+          "end_s": 3.23,
+          "dur_ms": 80.0
+        },
+        {
+          "phone": "S",
+          "start_s": 3.23,
+          "end_s": 3.36,
+          "dur_ms": 130.0
+        },
+        {
+          "phone": "",
+          "start_s": 3.36,
+          "end_s": 3.63,
+          "dur_ms": 270.0
+        },
+        {
+          "phone": "F",
+          "start_s": 3.63,
+          "end_s": 3.68,
+          "dur_ms": 50.0
+        }
+      ]
+    },
+    "F2BJRLP2_depoliticize_zoom.png": {
+      "words": [
+        {
+          "word": "promise",
+          "start_s": 4.68,
+          "end_s": 5.2,
+          "dur_ms": 520.0
+        },
+        {
+          "word": "to",
+          "start_s": 5.2,
+          "end_s": 5.42,
+          "dur_ms": 220.0
+        },
+        {
+          "word": "de",
+          "start_s": 5.42,
+          "end_s": 5.65,
+          "dur_ms": 230.0
+        },
+        {
+          "word": "politicize",
+          "start_s": 5.65,
+          "end_s": 6.51,
+          "dur_ms": 860.0
+        },
+        {
+          "word": "judicial",
+          "start_s": 6.51,
+          "end_s": 7.04,
+          "dur_ms": 530.0
+        }
+      ],
+      "phones": [
+        {
+          "phone": "S",
+          "start_s": 5.08,
+          "end_s": 5.2,
+          "dur_ms": 120.0
+        },
+        {
+          "phone": "T",
+          "start_s": 5.2,
+          "end_s": 5.33,
+          "dur_ms": 130.0
+        },
+        {
+          "phone": "UW1",
+          "start_s": 5.33,
+          "end_s": 5.42,
+          "dur_ms": 90.0
+        },
+        {
+          "phone": "D",
+          "start_s": 5.42,
+          "end_s": 5.54,
+          "dur_ms": 120.0
+        },
+        {
+          "phone": "IY1",
+          "start_s": 5.54,
+          "end_s": 5.65,
+          "dur_ms": 110.0
+        },
+        {
+          "phone": "P",
+          "start_s": 5.65,
+          "end_s": 5.75,
+          "dur_ms": 100.0
+        },
+        {
+          "phone": "AH0",
+          "start_s": 5.75,
+          "end_s": 5.79,
+          "dur_ms": 40.0
+        },
+        {
+          "phone": "L",
+          "start_s": 5.79,
+          "end_s": 5.88,
+          "dur_ms": 90.0
+        },
+        {
+          "phone": "IH1",
+          "start_s": 5.88,
+          "end_s": 5.93,
+          "dur_ms": 50.0
+        },
+        {
+          "phone": "T",
+          "start_s": 5.93,
+          "end_s": 5.97,
+          "dur_ms": 40.0
+        },
+        {
+          "phone": "IH0",
+          "start_s": 5.97,
+          "end_s": 6.02,
+          "dur_ms": 50.0
+        },
+        {
+          "phone": "S",
+          "start_s": 6.02,
+          "end_s": 6.15,
+          "dur_ms": 130.0
+        },
+        {
+          "phone": "AY2",
+          "start_s": 6.15,
+          "end_s": 6.39,
+          "dur_ms": 240.0
+        },
+        {
+          "phone": "Z",
+          "start_s": 6.39,
+          "end_s": 6.51,
+          "dur_ms": 120.0
+        },
+        {
+          "phone": "JH",
+          "start_s": 6.51,
+          "end_s": 6.62,
+          "dur_ms": 110.0
+        },
+        {
+          "phone": "UW0",
+          "start_s": 6.62,
+          "end_s": 6.68,
+          "dur_ms": 60.0
+        },
+        {
+          "phone": "D",
+          "start_s": 6.68,
+          "end_s": 6.75,
+          "dur_ms": 70.0
+        },
+        {
+          "phone": "IH1",
+          "start_s": 6.75,
+          "end_s": 6.81,
+          "dur_ms": 60.0
+        }
+      ]
+    },
+    "F2BJRLP2_maffy_zoom.png": {
+      "words": [
+        {
+          "word": "thomas",
+          "start_s": 23.52,
+          "end_s": 23.94,
+          "dur_ms": 420.0
+        },
+        {
+          "word": "maffy",
+          "start_s": 23.94,
+          "end_s": 24.33,
+          "dur_ms": 390.0
+        },
+        {
+          "word": "now",
+          "start_s": 24.33,
+          "end_s": 24.51,
+          "dur_ms": 180.0
+        },
+        {
+          "word": "president",
+          "start_s": 24.51,
+          "end_s": 25.05,
+          "dur_ms": 540.0
+        }
+      ],
+      "phones": [
+        {
+          "phone": "T",
+          "start_s": 23.52,
+          "end_s": 23.63,
+          "dur_ms": 110.0
+        },
+        {
+          "phone": "AA1",
+          "start_s": 23.63,
+          "end_s": 23.74,
+          "dur_ms": 110.0
+        },
+        {
+          "phone": "M",
+          "start_s": 23.74,
+          "end_s": 23.79,
+          "dur_ms": 50.0
+        },
+        {
+          "phone": "AH0",
+          "start_s": 23.79,
+          "end_s": 23.84,
+          "dur_ms": 50.0
+        },
+        {
+          "phone": "S",
+          "start_s": 23.84,
+          "end_s": 23.94,
+          "dur_ms": 100.0
+        },
+        {
+          "phone": "M",
+          "start_s": 23.94,
+          "end_s": 23.99,
+          "dur_ms": 50.0
+        },
+        {
+          "phone": "AE1",
+          "start_s": 23.99,
+          "end_s": 24.11,
+          "dur_ms": 120.0
+        },
+        {
+          "phone": "F",
+          "start_s": 24.11,
+          "end_s": 24.21,
+          "dur_ms": 100.0
+        },
+        {
+          "phone": "IY0",
+          "start_s": 24.21,
+          "end_s": 24.33,
+          "dur_ms": 120.0
+        },
+        {
+          "phone": "N",
+          "start_s": 24.33,
+          "end_s": 24.39,
+          "dur_ms": 60.0
+        },
+        {
+          "phone": "AW1",
+          "start_s": 24.39,
+          "end_s": 24.51,
+          "dur_ms": 120.0
+        },
+        {
+          "phone": "P",
+          "start_s": 24.51,
+          "end_s": 24.62,
+          "dur_ms": 110.0
+        },
+        {
+          "phone": "R",
+          "start_s": 24.62,
+          "end_s": 24.65,
+          "dur_ms": 30.0
+        }
+      ]
+    },
+    "ISLE_02_no_OW1_zoom.png": {
+      "words": [
+        {
+          "word": "new",
+          "start_s": 1.01,
+          "end_s": 1.42,
+          "dur_ms": 410.0
+        },
+        {
+          "word": "",
+          "start_s": 1.42,
+          "end_s": 1.45,
+          "dur_ms": 30.0
+        },
+        {
+          "word": "not",
+          "start_s": 1.45,
+          "end_s": 1.75,
+          "dur_ms": 300.0
+        },
+        {
+          "word": "no",
+          "start_s": 1.75,
+          "end_s": 2.22,
+          "dur_ms": 470.0
+        },
+        {
+          "word": "",
+          "start_s": 2.22,
+          "end_s": 3.875,
+          "dur_ms": 1655.0
+        }
+      ],
+      "phones": [
+        {
+          "phone": "UW1",
+          "start_s": 1.18,
+          "end_s": 1.42,
+          "dur_ms": 240.0
+        },
+        {
+          "phone": "",
+          "start_s": 1.42,
+          "end_s": 1.45,
+          "dur_ms": 30.0
+        },
+        {
+          "phone": "N",
+          "start_s": 1.45,
+          "end_s": 1.55,
+          "dur_ms": 100.0
+        },
+        {
+          "phone": "AA1",
+          "start_s": 1.55,
+          "end_s": 1.61,
+          "dur_ms": 60.0
+        },
+        {
+          "phone": "T",
+          "start_s": 1.61,
+          "end_s": 1.75,
+          "dur_ms": 140.0
+        },
+        {
+          "phone": "N",
+          "start_s": 1.75,
+          "end_s": 1.87,
+          "dur_ms": 120.0
+        },
+        {
+          "phone": "OW1",
+          "start_s": 1.87,
+          "end_s": 2.22,
+          "dur_ms": 350.0
+        },
+        {
+          "phone": "",
+          "start_s": 2.22,
+          "end_s": 3.875,
+          "dur_ms": 1655.0
+        }
+      ]
+    },
+    "ISLE_03_final_stops_zoom.png": {
+      "words": [
+        {
+          "word": "said",
+          "start_s": 0.29,
+          "end_s": 0.66,
+          "dur_ms": 370.0
+        },
+        {
+          "word": "bad",
+          "start_s": 0.66,
+          "end_s": 1.17,
+          "dur_ms": 510.0
+        },
+        {
+          "word": "not",
+          "start_s": 1.17,
+          "end_s": 1.57,
+          "dur_ms": 400.0
+        },
+        {
+          "word": "bed",
+          "start_s": 1.57,
+          "end_s": 2.06,
+          "dur_ms": 490.0
+        },
+        {
+          "word": "",
+          "start_s": 2.06,
+          "end_s": 4.5,
+          "dur_ms": 2440.0
+        }
+      ],
+      "phones": [
+        {
+          "phone": "EH1",
+          "start_s": 0.43,
+          "end_s": 0.5,
+          "dur_ms": 70.0
+        },
+        {
+          "phone": "D",
+          "start_s": 0.5,
+          "end_s": 0.66,
+          "dur_ms": 160.0
+        },
+        {
+          "phone": "B",
+          "start_s": 0.66,
+          "end_s": 0.7,
+          "dur_ms": 40.0
+        },
+        {
+          "phone": "AE1",
+          "start_s": 0.7,
+          "end_s": 0.92,
+          "dur_ms": 220.0
+        },
+        {
+          "phone": "D",
+          "start_s": 0.92,
+          "end_s": 1.17,
+          "dur_ms": 250.0
+        },
+        {
+          "phone": "N",
+          "start_s": 1.17,
+          "end_s": 1.26,
+          "dur_ms": 90.0
+        },
+        {
+          "phone": "AA1",
+          "start_s": 1.26,
+          "end_s": 1.33,
+          "dur_ms": 70.0
+        },
+        {
+          "phone": "T",
+          "start_s": 1.33,
+          "end_s": 1.57,
+          "dur_ms": 240.0
+        },
+        {
+          "phone": "B",
+          "start_s": 1.57,
+          "end_s": 1.61,
+          "dur_ms": 40.0
+        },
+        {
+          "phone": "EH1",
+          "start_s": 1.61,
+          "end_s": 1.8,
+          "dur_ms": 190.0
+        },
+        {
+          "phone": "D",
+          "start_s": 1.8,
+          "end_s": 2.06,
+          "dur_ms": 260.0
+        },
+        {
+          "phone": "",
+          "start_s": 2.06,
+          "end_s": 4.5,
+          "dur_ms": 2440.0
+        }
+      ]
+    }
+  }
+}

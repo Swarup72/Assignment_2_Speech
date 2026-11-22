@@ -46,5 +46,23 @@ last_checkpoint.pt
 *.key
 *.token
 
-# Assignment 2a (Forced Alignment - local only)
-Assignment 2a/
+# Assignment 2a (Forced Alignment - explicit allowlist for publication)
+# Excludes raw audio, transcripts, working/alignment corpora, 6.9 MB combined dict,
+# validation intermediates, and standalone PDFs while publishing reproducible outputs.
+Assignment 2a/*
+!Assignment 2a/README.md
+!Assignment 2a/ALIGNMENT_ANALYSIS.md
+!Assignment 2a/custom_oov_entries.dict
+!Assignment 2a/alignment_statistics.csv
+!Assignment 2a/alignment_statistics.json
+!Assignment 2a/generate_stage06_outputs.py
+!Assignment 2a/generate_pdf_report.py
+!Assignment 2a/aligned_textgrids/
+!Assignment 2a/aligned_textgrids/**
+!Assignment 2a/visualizations/
+!Assignment 2a/visualizations/**
+
+# Combined PDF report — temporary build files
+# (HTML-to-PDF headless Chrome workflow; Report.pdf itself remains tracked)
+combined_report.html
+ass2_combined_pdf_*/
