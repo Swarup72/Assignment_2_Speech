@@ -1,22 +1,17 @@
-"""Training pipeline for Text-Only Emotion Recognition (Stage 07B).
+"""Training script for Speech-Only Emotion Recognition models (Step 04).
 
-Uses `DistilBERTBiLSTMAttentionClassifier` on cached DistilBERT token embeddings
-loaded via `TESSFeatureDataset` and `tess_feature_collate_fn`.
-
-Key Features:
-- Supports `word_independent` (`word_indep_split`) and `cross_speaker` (`cross_speaker_split`)
-  evaluation protocols across configurable random seeds (`42`, `123`, `999`).
-- AdamW (`lr=1e-3`, `weight_decay=1e-2`), CosineAnnealingLR (`eta_min=1e-5`),
-  CrossEntropyLoss (`label_smoothing=0.1`).
-- Decoupled early stopping:
-  - `f1_improved`: resets `epochs_without_improvement = 0` and updates `best_model.pt`.
-  - `loss_tiebreak`: updates `best_model.pt` on tied Macro-F1 with lower validation loss,
-    without resetting `epochs_without_improvement`.
-- Atomic epoch-level resume checkpoint (`last_checkpoint.pt`) preserving latest model weights,
-  optimizer, scheduler, history, patience counter, and Python/NumPy/Torch/CUDA/DataLoader RNG states.
-- Completed-run protection: skips finished runs (`best_model.pt` + `training_history.json` exist)
-  unless `--overwrite` is explicitly requested.
-- Outputs isolated under `results/text/{architecture}/{split_dir}/seed_{seed}/` (or `--output-root`).
+Supports:
+- Architectures: `wavlm_bigru_attn` (primary) and `mfcc_cnn_bilstm` (baseline)
+- Split protocols: `word_indep_split` and `cross_speaker_split`
+- Random seeds: `42`, `123`, `999` (or custom list)
+- Optimizer: AdamW (`lr=1e-3`, `weight_decay=1e-2`)
+- Scheduler: CosineAnnealingLR (`T_max=epochs`, `eta_min=1e-5`)
+- Loss: CrossEntropyLoss (`label_smoothing=0.1`)
+- Early stopping strictly on validation Macro-F1 improvement (`f1_improved`), while
+  retaining validation loss as a checkpoint-selection tie-breaker (`loss_tiebreak`).
+- Safe epoch-level checkpoint resume (`last_checkpoint.pt`) and completed-run protection.
+- Persistent output root configuration (`--output-root`, e.g. Google Drive on Colab).
+- Device: CUDA (Tesla T4 on Colab) and Apple Silicon MPS with automatic CPU fallback.
 """
 
 import argparse
@@ -34,12 +29,11 @@ import torch.nn as nn
 from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
 from torch.utils.data import DataLoader
 
-from models.text_pipeline.model import (
-    ID_TO_EMOTION,
-    NUM_EMOTION_CLASSES,
-    TEXT_ARCHITECTURES,
-    build_text_model,
+from models.speech_pipeline.model import (
+    SPEECH_ARCHITECTURES,
+    build_speech_model,
 )
+from src.data.build_manifest import EMOTION_TO_ID
 from src.data.feature_dataset import (
     TESSFeatureDataset,
     VALID_SPLIT_COLUMNS,
@@ -47,58 +41,25 @@ from src.data.feature_dataset import (
 )
 from src.features.extract_speech_features import (
     DEFAULT_MANIFEST_PATH,
+    DEFAULT_MFCC_CACHE_DIR,
+    DEFAULT_WAVLM_CACHE_DIR,
     select_device,
 )
-from src.features.extract_text_features import DEFAULT_DISTILBERT_CACHE_DIR
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_TEXT_RESULTS_DIR = PROJECT_ROOT / "results" / "text"
+DEFAULT_RESULTS_DIR = PROJECT_ROOT / "Results" / "speech"
+ID_TO_EMOTION = {v: k for k, v in EMOTION_TO_ID.items()}
 
 F1_IMPROVEMENT_TOL = 1e-6
 LOSS_TIEBREAK_TOL = 1e-6
 
-# Map friendly CLI/directory split names and manifest column names cleanly
-SPLIT_ALIAS_TO_COLUMN: Dict[str, str] = {
-    "word_independent": "word_indep_split",
-    "word_indep_split": "word_indep_split",
-    "cross_speaker": "cross_speaker_split",
-    "cross_speaker_split": "cross_speaker_split",
-}
-COLUMN_TO_SPLIT_DIR: Dict[str, str] = {
-    "word_indep_split": "word_independent",
-    "cross_speaker_split": "cross_speaker",
-}
-SUPPORTED_SPLIT_CHOICES = (
-    "word_independent",
-    "cross_speaker",
-    "word_indep_split",
-    "cross_speaker_split",
-)
-
-
-def normalize_split_column(split_name: str) -> str:
-    """Resolve a CLI split name (`word_independent` or `word_indep_split`) to manifest column name."""
-    if split_name not in SPLIT_ALIAS_TO_COLUMN:
-        raise ValueError(
-            f"Unsupported split '{split_name}'. Expected one of {SUPPORTED_SPLIT_CHOICES}."
-        )
-    col = SPLIT_ALIAS_TO_COLUMN[split_name]
-    assert col in VALID_SPLIT_COLUMNS
-    return col
-
-
-def split_column_to_dir_name(split_column: str) -> str:
-    """Convert manifest split column (`word_indep_split`) to output directory name (`word_independent`)."""
-    col = normalize_split_column(split_column)
-    return COLUMN_TO_SPLIT_DIR[col]
-
 
 @dataclass
-class TextTrainConfig:
-    """Configuration for a single text-only emotion recognition training run."""
+class SpeechTrainConfig:
+    """Configuration for a single speech model training run."""
 
-    architecture: str = "distilbert_bilstm_attn"
+    architecture: str = "wavlm_bigru_attn"
     split_type: str = "word_indep_split"
     seed: int = 42
     batch_size: int = 32
@@ -110,14 +71,13 @@ class TextTrainConfig:
     label_smoothing: float = 0.1
     dropout: float = 0.3
     grad_clip_norm: float = 1.0
+    apply_mfcc_cmvn: bool = False
     device: Optional[str] = None
     manifest_path: str = str(DEFAULT_MANIFEST_PATH)
-    distilbert_cache_dir: str = str(DEFAULT_DISTILBERT_CACHE_DIR)
-    output_root: str = str(DEFAULT_TEXT_RESULTS_DIR)
+    wavlm_cache_dir: str = str(DEFAULT_WAVLM_CACHE_DIR)
+    mfcc_cache_dir: str = str(DEFAULT_MFCC_CACHE_DIR)
+    output_root: str = str(DEFAULT_RESULTS_DIR)
     overwrite: bool = False
-
-    def __post_init__(self) -> None:
-        self.split_type = normalize_split_column(self.split_type)
 
     def to_dict(self) -> Dict[str, Any]:
         return asdict(self)
@@ -136,7 +96,7 @@ def set_reproducible_seed(seed: int) -> None:
 
 
 def release_device_memory(device: torch.device) -> None:
-    """Synchronize and release cached accelerator memory on MPS or CUDA."""
+    """Synchronize and release cached device memory on MPS or CUDA."""
     if device.type == "mps":
         torch.mps.synchronize()
         torch.mps.empty_cache()
@@ -145,19 +105,18 @@ def release_device_memory(device: torch.device) -> None:
         torch.cuda.empty_cache()
 
 
-def get_text_run_output_dir(
+def get_run_output_dir(
     output_root: Union[str, Path],
-    architecture: str,
     split_type: str,
+    architecture: str,
     seed: int,
 ) -> Path:
-    """Return canonical directory path `{output_root}/{architecture}/{split_dir}/seed_{seed}`."""
-    split_dir = split_column_to_dir_name(split_type)
-    return Path(output_root).expanduser() / architecture / split_dir / f"seed_{seed}"
+    """Return canonical directory path `{output_root}/{split_type}/{architecture}/seed_{seed}`."""
+    return Path(output_root).expanduser() / split_type / architecture / f"seed_{seed}"
 
 
-def is_text_run_completed(run_dir: Path) -> bool:
-    """Check whether a text training run has completed and saved valid final artifacts."""
+def is_run_completed(run_dir: Path) -> bool:
+    """Check whether a training run has already completed and saved valid final artifacts."""
     best_ckpt = run_dir / "best_model.pt"
     hist_json = run_dir / "training_history.json"
     return (
@@ -170,7 +129,7 @@ def is_text_run_completed(run_dir: Path) -> bool:
 
 def _validate_resume_compatibility(
     resume_payload: Dict[str, Any],
-    config: TextTrainConfig,
+    config: SpeechTrainConfig,
 ) -> None:
     """Verify that `last_checkpoint.pt` matches the requested run configuration and seed."""
     saved_arch = resume_payload.get("architecture")
@@ -198,6 +157,7 @@ def _validate_resume_compatibility(
         "weight_decay",
         "label_smoothing",
         "dropout",
+        "apply_mfcc_cmvn",
     )
     current_cfg = config.to_dict()
     for key in critical_keys:
@@ -208,14 +168,23 @@ def _validate_resume_compatibility(
             )
 
 
-def _extract_text_batch_inputs(
+def _extract_batch_inputs(
     batch: Dict[str, Any],
+    architecture: str,
     device: torch.device,
 ) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]:
-    """Extract `(text_features, text_lengths, text_mask, labels)` onto `device`."""
-    features = batch["text_features"].to(device)
-    lengths = batch["text_lengths"].to(device)
-    mask = batch["text_mask"].to(device)
+    """Extract modality-specific `(features, lengths, mask, labels)` for the chosen architecture."""
+    if architecture == "wavlm_bigru_attn":
+        features = batch["wavlm_features"].to(device)
+        lengths = batch["wavlm_lengths"].to(device)
+        mask = batch["wavlm_mask"].to(device)
+    elif architecture == "mfcc_cnn_bilstm":
+        features = batch["mfcc_features"].to(device)
+        lengths = batch["mfcc_lengths"].to(device)
+        mask = batch["mfcc_mask"].to(device)
+    else:
+        raise ValueError(f"Unsupported architecture: {architecture}")
+
     labels = batch["labels"].to(device)
     return features, lengths, mask, labels
 
@@ -225,23 +194,28 @@ def compute_classification_metrics(
     y_pred: Sequence[int],
 ) -> Dict[str, float]:
     """Compute Accuracy, Macro-Precision, Macro-Recall, and Macro-F1."""
+    acc = float(accuracy_score(y_true, y_pred))
+    prec = float(precision_score(y_true, y_pred, average="macro", zero_division=0))
+    rec = float(recall_score(y_true, y_pred, average="macro", zero_division=0))
+    f1 = float(f1_score(y_true, y_pred, average="macro", zero_division=0))
     return {
-        "accuracy": float(accuracy_score(y_true, y_pred)),
-        "macro_precision": float(precision_score(y_true, y_pred, average="macro", zero_division=0)),
-        "macro_recall": float(recall_score(y_true, y_pred, average="macro", zero_division=0)),
-        "macro_f1": float(f1_score(y_true, y_pred, average="macro", zero_division=0)),
+        "accuracy": acc,
+        "macro_precision": prec,
+        "macro_recall": rec,
+        "macro_f1": f1,
     }
 
 
-def run_text_epoch(
+def run_epoch(
     model: nn.Module,
     dataloader: DataLoader,
     criterion: nn.Module,
+    architecture: str,
     device: torch.device,
     optimizer: Optional[torch.optim.Optimizer] = None,
     grad_clip_norm: Optional[float] = 1.0,
 ) -> Tuple[Dict[str, float], torch.device, bool]:
-    """Run one training or validation epoch for the text model with MPS->CPU fallback."""
+    """Run one training or validation epoch with automatic MPS->CPU fallback."""
     is_train = optimizer is not None
     model.train(mode=is_train)
 
@@ -256,7 +230,9 @@ def run_text_epoch(
     with context:
         for batch in dataloader:
             try:
-                features, lengths, mask, labels = _extract_text_batch_inputs(batch, active_device)
+                features, lengths, mask, labels = _extract_batch_inputs(
+                    batch, architecture=architecture, device=active_device
+                )
                 if is_train:
                     optimizer.zero_grad(set_to_none=True)
                 out = model(features, lengths=lengths, mask=mask)
@@ -272,7 +248,9 @@ def run_text_epoch(
                     fallback_triggered = True
                     active_device = torch.device("cpu")
                     model.to(active_device)
-                    features, lengths, mask, labels = _extract_text_batch_inputs(batch, active_device)
+                    features, lengths, mask, labels = _extract_batch_inputs(
+                        batch, architecture=architecture, device=active_device
+                    )
                     if is_train:
                         optimizer.zero_grad(set_to_none=True)
                     out = model(features, lengths=lengths, mask=mask)
@@ -290,8 +268,10 @@ def run_text_epoch(
             total_loss += float(loss.detach().cpu().item()) * batch_size
             total_samples += batch_size
 
-            all_preds.extend(logits.detach().argmax(dim=-1).cpu().tolist())
-            all_targets.extend(labels.detach().cpu().tolist())
+            preds = logits.detach().argmax(dim=-1).cpu().tolist()
+            targets = labels.detach().cpu().tolist()
+            all_preds.extend(preds)
+            all_targets.extend(targets)
 
     avg_loss = total_loss / max(total_samples, 1)
     metrics = compute_classification_metrics(all_targets, all_preds)
@@ -299,28 +279,28 @@ def run_text_epoch(
     return metrics, active_device, fallback_triggered
 
 
-def train_single_text_run(config: TextTrainConfig) -> Dict[str, Any]:
-    """Train a single text-only run with Macro-F1 early stopping, resume, and skip protection."""
-    if config.architecture not in TEXT_ARCHITECTURES:
-        raise ValueError(f"Invalid text architecture: {config.architecture}")
-    split_col = normalize_split_column(config.split_type)
-    config.split_type = split_col
+def train_single_run(config: SpeechTrainConfig) -> Dict[str, Any]:
+    """Train a single speech model run with Macro-F1 early stopping and epoch-level resume."""
+    if config.architecture not in SPEECH_ARCHITECTURES:
+        raise ValueError(f"Invalid architecture: {config.architecture}")
+    if config.split_type not in VALID_SPLIT_COLUMNS:
+        raise ValueError(f"Invalid split_type: {config.split_type}")
 
-    run_dir = get_text_run_output_dir(
+    run_dir = get_run_output_dir(
         output_root=config.output_root,
-        architecture=config.architecture,
         split_type=config.split_type,
+        architecture=config.architecture,
         seed=config.seed,
     )
     run_dir.mkdir(parents=True, exist_ok=True)
 
-    # Completed-run protection: never overwrite completed runs unless overwrite=True
-    if not config.overwrite and is_text_run_completed(run_dir):
+    # Completed-run protection: never overwrite finished runs unless overwrite=True
+    if not config.overwrite and is_run_completed(run_dir):
         with open(run_dir / "training_history.json", "r", encoding="utf-8") as f:
             existing_summary = json.load(f)
         print(
-            f"[text_train] SKIPPING completed run: {config.architecture} | "
-            f"{split_column_to_dir_name(config.split_type)} | seed={config.seed} "
+            f"[speech_train] SKIPPING completed run: {config.split_type} | "
+            f"{config.architecture} | seed={config.seed} "
             f"(best_epoch={existing_summary.get('best_epoch')}, "
             f"best_val_macro_f1={existing_summary.get('best_val_macro_f1')})",
             flush=True,
@@ -329,19 +309,25 @@ def train_single_text_run(config: TextTrainConfig) -> Dict[str, Any]:
 
     set_reproducible_seed(config.seed)
 
+    modality = "wavlm" if config.architecture == "wavlm_bigru_attn" else "mfcc"
+
     train_dataset = TESSFeatureDataset(
         manifest_path=config.manifest_path,
         split_type=config.split_type,
         split="train",
-        modalities=("distilbert",),
-        distilbert_cache_dir=config.distilbert_cache_dir,
+        modalities=(modality,),
+        wavlm_cache_dir=config.wavlm_cache_dir,
+        mfcc_cache_dir=config.mfcc_cache_dir,
+        apply_mfcc_cmvn=config.apply_mfcc_cmvn,
     )
     val_dataset = TESSFeatureDataset(
         manifest_path=config.manifest_path,
         split_type=config.split_type,
         split="val",
-        modalities=("distilbert",),
-        distilbert_cache_dir=config.distilbert_cache_dir,
+        modalities=(modality,),
+        wavlm_cache_dir=config.wavlm_cache_dir,
+        mfcc_cache_dir=config.mfcc_cache_dir,
+        apply_mfcc_cmvn=config.apply_mfcc_cmvn,
     )
 
     train_generator = torch.Generator()
@@ -366,10 +352,9 @@ def train_single_text_run(config: TextTrainConfig) -> Dict[str, Any]:
     exec_device = select_device(config.device)
     initial_device_str = str(exec_device)
 
-    model = build_text_model(
+    model = build_speech_model(
         architecture=config.architecture,
         dropout=config.dropout,
-        num_classes=NUM_EMOTION_CLASSES,
     ).to(exec_device)
 
     num_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
@@ -432,9 +417,8 @@ def train_single_text_run(config: TextTrainConfig) -> Dict[str, Any]:
                 pass
 
         print(
-            f"[text_train] RESUMING {config.architecture} | "
-            f"{split_column_to_dir_name(config.split_type)} | seed={config.seed} "
-            f"from epoch {start_epoch}/{config.max_epochs} "
+            f"[speech_train] RESUMING {config.split_type} | {config.architecture} | "
+            f"seed={config.seed} from epoch {start_epoch}/{config.max_epochs} "
             f"(best_val_macro_f1={best_val_macro_f1:.4f} @ ep {best_epoch}, "
             f"patience={epochs_without_improvement}/{config.patience})",
             flush=True,
@@ -449,18 +433,20 @@ def train_single_text_run(config: TextTrainConfig) -> Dict[str, Any]:
         epoch_t0 = time.perf_counter()
         current_lr = float(optimizer.param_groups[0]["lr"])
 
-        train_metrics, exec_device, train_fb = run_text_epoch(
+        train_metrics, exec_device, train_fb = run_epoch(
             model=model,
             dataloader=train_loader,
             criterion=criterion,
+            architecture=config.architecture,
             device=exec_device,
             optimizer=optimizer,
             grad_clip_norm=config.grad_clip_norm,
         )
-        val_metrics, exec_device, val_fb = run_text_epoch(
+        val_metrics, exec_device, val_fb = run_epoch(
             model=model,
             dataloader=val_loader,
             criterion=criterion,
+            architecture=config.architecture,
             device=exec_device,
             optimizer=None,
         )
@@ -472,7 +458,10 @@ def train_single_text_run(config: TextTrainConfig) -> Dict[str, Any]:
         val_f1 = val_metrics["macro_f1"]
         val_loss = val_metrics["loss"]
 
-        # Decoupled early stopping & checkpoint tie-breaker
+        # Decoupled early-stopping and checkpoint tie-breaking conditions:
+        # 1. f1_improved: resets patience counter and saves best_model.pt
+        # 2. loss_tiebreak: updates best_model.pt on tied Macro-F1 with lower val_loss,
+        #    while still incrementing epochs_without_improvement
         f1_improved = val_f1 > (best_val_macro_f1 + F1_IMPROVEMENT_TOL)
         loss_tiebreak = (
             (not f1_improved)
@@ -497,7 +486,6 @@ def train_single_text_run(config: TextTrainConfig) -> Dict[str, Any]:
                 {
                     "architecture": config.architecture,
                     "split_type": config.split_type,
-                    "split_name": split_column_to_dir_name(config.split_type),
                     "seed": config.seed,
                     "best_epoch": best_epoch,
                     "best_val_macro_f1": best_val_macro_f1,
@@ -506,7 +494,7 @@ def train_single_text_run(config: TextTrainConfig) -> Dict[str, Any]:
                     "model_config": {
                         "architecture": config.architecture,
                         "dropout": config.dropout,
-                        "num_classes": NUM_EMOTION_CLASSES,
+                        "num_classes": 7,
                     },
                     "train_config": config.to_dict(),
                     "state_dict": state_dict_cpu,
@@ -535,21 +523,19 @@ def train_single_text_run(config: TextTrainConfig) -> Dict[str, Any]:
         history.append(epoch_record)
 
         print(
-            f"[text_train] {config.architecture} | {split_column_to_dir_name(config.split_type)} | "
-            f"seed={config.seed} | ep={epoch:02d}/{config.max_epochs:02d} | "
-            f"train_loss={train_metrics['loss']:.4f} | val_loss={val_loss:.4f} | "
-            f"val_f1={val_f1:.4f} (best={best_val_macro_f1:.4f} @ ep {best_epoch}) | "
+            f"[speech_train] {config.split_type} | {config.architecture} | seed={config.seed} | "
+            f"ep={epoch:02d}/{config.max_epochs:02d} | train_loss={train_metrics['loss']:.4f} | "
+            f"val_loss={val_loss:.4f} | val_f1={val_f1:.4f} (best={best_val_macro_f1:.4f} @ ep {best_epoch}) | "
             f"f1_imp={f1_improved} | tiebreak={loss_tiebreak} | "
             f"patience={epochs_without_improvement}/{config.patience} | {epoch_time_sec:.2f}s",
             flush=True,
         )
 
-        # Save atomic epoch-level resume checkpoint
+        # Save epoch-level resume checkpoint at the end of every completed epoch
         latest_state_cpu = {k: v.detach().cpu() for k, v in model.state_dict().items()}
         resume_state = {
             "architecture": config.architecture,
             "split_type": config.split_type,
-            "split_name": split_column_to_dir_name(config.split_type),
             "seed": config.seed,
             "train_config": config.to_dict(),
             "last_epoch": epoch,
@@ -579,7 +565,7 @@ def train_single_text_run(config: TextTrainConfig) -> Dict[str, Any]:
 
         if epochs_without_improvement >= config.patience:
             print(
-                f"[text_train] Early stopping triggered at epoch {epoch} "
+                f"[speech_train] Early stopping triggered at epoch {epoch} "
                 f"(no Macro-F1 improvement for {config.patience} epochs).",
                 flush=True,
             )
@@ -588,6 +574,7 @@ def train_single_text_run(config: TextTrainConfig) -> Dict[str, Any]:
     release_device_memory(exec_device)
     total_train_time_sec = elapsed_prior_sec + (time.perf_counter() - t0)
 
+    # Save training history CSV and JSON
     history_df = pd.DataFrame(history)
     history_csv_path = run_dir / "training_history.csv"
     history_json_path = run_dir / "training_history.json"
@@ -598,7 +585,6 @@ def train_single_text_run(config: TextTrainConfig) -> Dict[str, Any]:
     train_summary = {
         "architecture": config.architecture,
         "split_type": config.split_type,
-        "split_name": split_column_to_dir_name(config.split_type),
         "seed": config.seed,
         "num_trainable_params": num_params,
         "train_samples": len(train_dataset),
@@ -612,7 +598,6 @@ def train_single_text_run(config: TextTrainConfig) -> Dict[str, Any]:
         "cpu_fallback_used": cpu_fallback_used,
         "training_time_sec": round(total_train_time_sec, 4),
         "checkpoint_path": str(checkpoint_path),
-        "last_checkpoint_path": str(last_checkpoint_path),
         "config": config.to_dict(),
         "history": history,
     }
@@ -622,40 +607,49 @@ def train_single_text_run(config: TextTrainConfig) -> Dict[str, Any]:
     with open(config_json_path, "w", encoding="utf-8") as f:
         json.dump(config.to_dict(), f, indent=2)
 
+    # Remove last_checkpoint.pt only after final history and best_model.pt are verified on disk
+    if (
+        checkpoint_path.exists()
+        and history_json_path.exists()
+        and history_csv_path.exists()
+        and last_checkpoint_path.exists()
+    ):
+        last_checkpoint_path.unlink()
+
     print(
-        f"[text_train] COMPLETED {config.architecture} | {split_column_to_dir_name(config.split_type)} | "
-        f"seed={config.seed} | best_epoch={best_epoch}/{len(history)} | "
-        f"best_val_macro_f1={best_val_macro_f1:.4f} | time={total_train_time_sec:.2f}s ({exec_device})",
+        f"[speech_train] COMPLETED {config.split_type} | {config.architecture} | seed={config.seed} | "
+        f"best_epoch={best_epoch}/{len(history)} | best_val_macro_f1={best_val_macro_f1:.4f} | "
+        f"time={total_train_time_sec:.2f}s ({exec_device})",
         flush=True,
     )
     return train_summary
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Train text-only emotion recognition models.")
+    parser = argparse.ArgumentParser(description="Train speech-only emotion recognition models.")
     parser.add_argument(
         "--architectures",
         nargs="+",
-        default=list(TEXT_ARCHITECTURES),
-        choices=list(TEXT_ARCHITECTURES),
+        default=list(SPEECH_ARCHITECTURES),
+        choices=list(SPEECH_ARCHITECTURES),
     )
     parser.add_argument(
         "--splits",
         nargs="+",
-        default=["word_independent", "cross_speaker"],
-        choices=list(SUPPORTED_SPLIT_CHOICES),
+        default=list(VALID_SPLIT_COLUMNS),
+        choices=list(VALID_SPLIT_COLUMNS),
     )
     parser.add_argument("--seeds", nargs="+", type=int, default=[42, 123, 999])
     parser.add_argument("--batch-size", type=int, default=32)
     parser.add_argument("--epochs", type=int, default=50)
     parser.add_argument("--patience", type=int, default=12)
     parser.add_argument("--lr", type=float, default=1e-3)
-    parser.add_argument("--min-lr", type=float, default=1e-5)
     parser.add_argument("--weight-decay", type=float, default=1e-2)
     parser.add_argument("--label-smoothing", type=float, default=0.1)
     parser.add_argument("--dropout", type=float, default=0.3)
+    parser.add_argument("--apply-mfcc-cmvn", action="store_true")
     parser.add_argument("--device", type=str, default=None)
-    parser.add_argument("--output-root", type=Path, default=DEFAULT_TEXT_RESULTS_DIR)
+    parser.add_argument("--output-root", type=Path, default=DEFAULT_RESULTS_DIR)
     parser.add_argument(
         "--overwrite",
         action="store_true",
@@ -666,27 +660,26 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
-    for split_arg in args.splits:
-        split_col = normalize_split_column(split_arg)
+    for split_type in args.splits:
         for arch in args.architectures:
             for seed in args.seeds:
-                cfg = TextTrainConfig(
+                cfg = SpeechTrainConfig(
                     architecture=arch,
-                    split_type=split_col,
+                    split_type=split_type,
                     seed=seed,
                     batch_size=args.batch_size,
                     max_epochs=args.epochs,
                     patience=args.patience,
                     lr=args.lr,
-                    min_lr=args.min_lr,
                     weight_decay=args.weight_decay,
                     label_smoothing=args.label_smoothing,
                     dropout=args.dropout,
+                    apply_mfcc_cmvn=args.apply_mfcc_cmvn,
                     device=args.device,
                     output_root=str(args.output_root),
                     overwrite=args.overwrite,
                 )
-                train_single_text_run(cfg)
+                train_single_run(cfg)
 
 
 if __name__ == "__main__":

@@ -63,9 +63,9 @@ from src.features.extract_text_features import DEFAULT_DISTILBERT_CACHE_DIR
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_SPEECH_RESULTS_DIR = PROJECT_ROOT / "results" / "speech"
-DEFAULT_TEXT_RESULTS_DIR = PROJECT_ROOT / "results" / "text"
-DEFAULT_FUSION_RESULTS_DIR = PROJECT_ROOT / "results" / "fusion"
+DEFAULT_SPEECH_RESULTS_DIR = PROJECT_ROOT / "Results" / "speech"
+DEFAULT_TEXT_RESULTS_DIR = PROJECT_ROOT / "Results" / "text"
+DEFAULT_FUSION_RESULTS_DIR = PROJECT_ROOT / "Results" / "fusion"
 
 DEFAULT_SPEECH_ARCHITECTURE = "wavlm_bigru_attn"
 DEFAULT_TEXT_ARCHITECTURE = "distilbert_bilstm_attn"

@@ -29,10 +29,13 @@ env/
 # Raw dataset and large extracted audio (Kaggle TESS raw audio)
 data/tess/raw/
 data/tess/
+Assignment 2b/data/tess/raw/
+Assignment 2b/data/tess/
 
 # Large precomputed feature caches (~1.05 GB total: wavlm, mfcc, distilbert)
-# Can be regenerated using src/features/extract_speech_features.py and extract_text_features.py
+# Can be regenerated using Assignment 2b/src/features/extract_speech_features.py and extract_text_features.py
 data/features/
+Assignment 2b/data/features/
 
 # Resume/training intermediate checkpoints (optimizer buffers & RNG states)
 # Final evaluated models are preserved in best_model.pt

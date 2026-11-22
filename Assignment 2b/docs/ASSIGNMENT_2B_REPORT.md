@@ -129,7 +129,7 @@ Verified directly from `models/{speech,text,fusion}_pipeline/train.py` and saved
 
 ## 8. Experimental Results (Official Report Section B)
 
-All values below are sourced directly from [results/fusion/summaries/overall_comparison.csv](../results/fusion/summaries/overall_comparison.csv) and [stage09_unified_summary.json](../results/fusion/summaries/stage09_unified_summary.json).
+All values below are sourced directly from [results/fusion/summaries/overall_comparison.csv](../Results/fusion/summaries/overall_comparison.csv) and [stage09_unified_summary.json](../Results/fusion/summaries/stage09_unified_summary.json).
 
 ### 8.1. Overall Comparison Across All 27 Completed Experiments (Mean ± Std, 3 Seeds)
 
@@ -156,34 +156,34 @@ All values below are sourced directly from [results/fusion/summaries/overall_com
 
 ### 9.1. Three-Panel t-SNE Representation Separability (Mandatory)
 
-![Three-panel t-SNE comparison of Temporal, Contextual, and Fusion representations](../results/plots/tsne_three_panel_comparison.png)
+![Three-panel t-SNE comparison of Temporal, Contextual, and Fusion representations](../Results/plots/tsne_three_panel_comparison.png)
 
 - **Methodology:** Computed over the exact same **420 aligned test samples** (`word_indep_split`, Seed 42) across all three panels using identical t-SNE settings (`perplexity=30`, `init="pca"`, `learning_rate="auto"`, `random_state=42`, `max_iter=1000`) from `temporal_modelling_block` (WavLM), `contextual_modelling_block` (DistilBERT), and `h_fused` (Gated Fusion).
 - **Observations:** The Temporal Modelling block (left) forms seven compact, cleanly separated emotion clusters, with a single `pleasant_surprise` point adjacent to the `disgust` cluster. The Contextual Modelling block (center) exhibits complete overlap across all seven emotion labels, visually confirming that TESS text embeddings do not separate emotions. The Fusion block (right) preserves seven well-separated emotion clusters despite receiving uninformative text embeddings. *Note:* t-SNE is a qualitative local-neighbourhood projection rather than a quantitative separability metric.
 
 ### 9.2. Confusion Matrices
 
-![Word-independent confusion matrices across all six architectures](../results/plots/confusion_matrices_word_independent.png)
+![Word-independent confusion matrices across all six architectures](../Results/plots/confusion_matrices_word_independent.png)
 
-![Cross-speaker confusion matrices across unimodal architectures](../results/plots/confusion_matrices_cross_speaker.png)
+![Cross-speaker confusion matrices across unimodal architectures](../Results/plots/confusion_matrices_cross_speaker.png)
 
 On `word_indep_split` (Seed 42), WavLM, MFCC, Gated, Concat, and Late Fusion produce near-diagonal matrices (419/420 correct, with 1 `pleasant_surprise` $\rightarrow$ `disgust` error), whereas DistilBERT collapses to predicting a single class (`14.29%`). On `cross_speaker_split`, off-diagonal confusions dominate, particularly mapping `happy` utterances from `YAF` to `angry` and `pleasant_surprise`.
 
 ### 9.3. Training Curves & Per-Class F1 Comparison
 
-![Training and validation loss and Macro-F1 curves](../results/plots/training_validation_curves.png)
+![Training and validation loss and Macro-F1 curves](../Results/plots/training_validation_curves.png)
 
-![Per-class F1 comparison across all six architectures](../results/plots/per_class_f1_comparison.png)
+![Per-class F1 comparison across all six architectures](../Results/plots/per_class_f1_comparison.png)
 
 Speech and trainable fusion models converge rapidly to `1.0000` validation Macro-F1 (fusion heads converge within 13 epochs on frozen embeddings), while DistilBERT remains flat at `0.0357` validation Macro-F1 and `~1.95` cross-entropy loss (`ln(7)`). Late Fusion is parameter-free and therefore has no training curve.
 
 ### 9.4. Gated Fusion Activations, Late Fusion Calibration & Cross-Speaker Generalization
 
-![Gated fusion empirical gate activation statistics](../results/plots/gated_fusion_gate_analysis.png)
+![Gated fusion empirical gate activation statistics](../Results/plots/gated_fusion_gate_analysis.png)
 
-![Late fusion validation lambda calibration curves](../results/plots/late_fusion_lambda_calibration.png)
+![Late fusion validation lambda calibration curves](../Results/plots/late_fusion_lambda_calibration.png)
 
-![Cross-speaker WavLM vs MFCC performance comparison](../results/plots/cross_speaker_speech_comparison.png)
+![Cross-speaker WavLM vs MFCC performance comparison](../Results/plots/cross_speaker_speech_comparison.png)
 
 - **Gated Fusion Activations:** Across all three seeds (`420 × 256 × 3` values), empirical gate activations span `[0.012, 0.994]` with mean `0.6795 ± 0.260` and consistent per-emotion means (`0.65`–`0.70`). These statistics describe observed layer activations on test embeddings and are not treated as definitive causal proof of modality importance.
 - **Late Fusion Calibration:** Validation Macro-F1 jumps from `0.0357` at $\lambda = 0.00$ to `1.0000` for $\lambda \ge 0.10$, while validation log-loss decreases monotonically to its minimum at $\lambda = 1.00$ across all three seeds, systematically selecting speech-only probabilities.
@@ -193,9 +193,9 @@ Speech and trainable fusion models converge rapidly to `1.0000` validation Macro
 
 ## 10. Error Analysis: Five Concrete Failure Cases (Official Report Section C)
 
-Sourced directly from [results/fusion/summaries/error_analysis_five_cases.csv](../results/fusion/summaries/error_analysis_five_cases.csv):
+Sourced directly from [results/fusion/summaries/error_analysis_five_cases.csv](../Results/fusion/summaries/error_analysis_five_cases.csv):
 
-![Error analysis probability distributions for five misclassified test samples](../results/plots/error_analysis_five_cases.png)
+![Error analysis probability distributions for five misclassified test samples](../Results/plots/error_analysis_five_cases.png)
 
 | # | Sample ID | Model (Split, Seed) | True Emotion | Predicted Emotion | Confidence | True Class Prob | Supported Observation from Saved Predictions |
 | :-: | :--- | :--- | :--- | :--- | :---: | :---: | :--- |

@@ -28,7 +28,7 @@ from models.fusion_pipeline.model import ID_TO_EMOTION, NUM_EMOTION_CLASSES
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-RESULTS_ROOT = PROJECT_ROOT / "results"
+RESULTS_ROOT = PROJECT_ROOT / "Results"
 SUMMARIES_DIR = RESULTS_ROOT / "fusion" / "summaries"
 PLOTS_DIR = RESULTS_ROOT / "plots"
 
